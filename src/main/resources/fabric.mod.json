@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "id": "patchoulibutton",
+  "version": "${version}",
+  "name": "PachouliButton",
+  "description": "This is an addon for the mod Patchouli which adds a button in the inventory screen",
+  "authors": [
+    "Globox_Z"
+  ],
+  "contact": {
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/patchoulibutton",
+    "sources": "https://github.com/Globox1997/PatchouliButton",
+    "issues": "https://github.com/Globox1997/PatchouliButton/issues"
+  },
+  "license": "MIT",
+  "icon": "assets/patchoulibutton/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "net.patchoulibutton.PatchouliButtonMain"
+    ],
+    "client": [
+      "net.patchoulibutton.PatchouliButtonClient"
+    ],
+    "modmenu": [
+      "net.patchoulibutton.config.ModMenuIntegration"
+    ]
+  },
+  "mixins": [
+    "patchoulibutton.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.14.9",
+    "fabric-api": "*",
+    "minecraft": "1.19.x",
+    "java": ">=17",
+    "patchouli": "*",
+    "cloth-config2": ">=7.0.69"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}

@@ -1,0 +1,10 @@
+{
+    "text.autoconfig.patchoulibutton.title": "PatchouliButton Config",
+    "text.autoconfig.patchoulibutton.option.bookIdentifier": "Book Identifier",
+    "text.autoconfig.patchoulibutton.option.posX": "Button Pos X",
+    "text.autoconfig.patchoulibutton.option.posY": "Button Pos Y",
+    
+    "screen.patchoulibutton": "Modpack Books",
+    "screen.patchoulibutton.title": "Modpack Books",
+    "screen.patchoulibutton.book_name": "%s"
+}
