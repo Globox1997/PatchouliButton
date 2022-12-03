@@ -35,8 +35,8 @@ public class PatchouliButtonServerPacket {
             Book book = iterator.next();
             buf.writeIdentifier(book.id);
             Item item = Registry.ITEM.get(book.model);
-            if (item == null)
-                item = Items.WRITTEN_BOOK;
+            if (item == null || item.equals(Items.AIR))
+                item = Items.BOOK;
 
             buf.writeIdentifier(Registry.ITEM.getId(item));
             buf.writeString(book.name);
