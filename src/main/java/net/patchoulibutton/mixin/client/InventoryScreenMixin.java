@@ -1,4 +1,4 @@
-package net.patchoulibutton.mixin;
+package net.patchoulibutton.mixin.client;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 

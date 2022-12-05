@@ -11,6 +11,7 @@ import net.minecraft.network.packet.s2c.play.CustomPayloadS2CPacket;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+import net.patchoulibutton.PatchouliButtonMain;
 import net.patchoulibutton.mixin.access.BookRegistryAccessor;
 import vazkii.patchouli.common.book.Book;
 import vazkii.patchouli.common.book.BookRegistry;
@@ -40,6 +41,12 @@ public class PatchouliButtonServerPacket {
 
             buf.writeIdentifier(Registry.ITEM.getId(item));
             buf.writeString(book.name);
+        }
+        if (PatchouliButtonMain.isBYGLoaded) {
+            Identifier identifier = new Identifier("byg", "biomepedia");
+            buf.writeIdentifier(identifier);
+            buf.writeIdentifier(identifier);
+            buf.writeString(Registry.ITEM.get(identifier).getName().getString());
         }
         CustomPayloadS2CPacket packet = new CustomPayloadS2CPacket(OPEN_MODPACK_SCREEN_PACKET, buf);
         serverPlayerEntity.networkHandler.sendPacket(packet);

@@ -16,6 +16,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.patchoulibutton.PatchouliButtonMain;
+import potionstudios.byg.client.gui.biomepedia.screen.BiomepediaHomeScreen;
 import vazkii.patchouli.api.PatchouliAPI;
 
 @Environment(EnvType.CLIENT)
@@ -40,26 +41,28 @@ public class PatchouliButtonScreen extends Screen {
         this.textRenderer.draw(matrices, this.title, this.width / 2 - this.textRenderer.getWidth(this.title) / 2, this.height / 2 - 75, 0x000000);
 
         int u = this.page * 6 * 3;
+        int count = 0;
         for (; u < this.list.size(); u += 3) {
-            if (this.isPointWithinBounds(-62, -60 + (u / 3) * 20, 110, 18, (double) mouseX, (double) mouseY)) {
+            if (this.isPointWithinBounds(-62, -60 + ((u / 3) - this.page * 6) * 20, 110, 18, (double) mouseX, (double) mouseY)) {
                 RenderSystem.setShaderTexture(0, PatchouliButtonMain.PATCHOULI_BUTTON);
                 RenderSystem.enableBlend();
-                this.drawTexture(matrices, this.width / 2 - 62, this.height / 2 - 61 + (u / 3) * 20, 0, 200, 120, 18);
+                this.drawTexture(matrices, this.width / 2 - 62, this.height / 2 - 61 + ((u / 3) - this.page * 6) * 20, 0, 200, 120, 18);
                 RenderSystem.disableBlend();
             }
 
-            this.itemRenderer.renderInGui(new ItemStack(Registry.ITEM.get((Identifier) this.list.get(u + 1))), this.width / 2 - 60, this.height / 2 - 60 + (u / 3) * 20);
+            this.itemRenderer.renderInGui(new ItemStack(Registry.ITEM.get((Identifier) this.list.get(u + 1))), this.width / 2 - 60, this.height / 2 - 60 + ((u / 3) - this.page * 6) * 20);
 
             String text = Text.translatable((String) this.list.get(u + 2)).getString();
             boolean isTooLong = this.textRenderer.getWidth(text) > 90;
             if (isTooLong)
                 text = text.substring(0, 14) + "..";
 
-            this.textRenderer.draw(matrices, text, this.width / 2 - 36, this.height / 2 - 60 + (u / 3) * 20 + 4, 0x000000);
-            if (isTooLong && this.isPointWithinBounds(-62, -60 + (u / 3) * 20, 110, 18, (double) mouseX, (double) mouseY))
+            this.textRenderer.draw(matrices, text, this.width / 2 - 36, this.height / 2 - 60 + ((u / 3) - this.page * 6) * 20 + 4, 0x000000);
+            if (isTooLong && this.isPointWithinBounds(-62, -60 + ((u / 3) - this.page * 6) * 20, 110, 18, (double) mouseX, (double) mouseY))
                 this.renderTooltip(matrices, Text.translatable((String) this.list.get(u + 2)), mouseX, mouseY);
 
-            if (u != 0 && u % 15 == 0)
+            count++;
+            if (count >= 6 || count >= (this.list.size() - this.page * 6 * 3) / 3)
                 break;
         }
 
@@ -86,16 +89,29 @@ public class PatchouliButtonScreen extends Screen {
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         if (this.list.size() / 18 > 0) {
-            if (this.list.size() / 18 > this.page && this.isPointWithinBounds(30, 65, 18, 10, (double) mouseX, (double) mouseY))
+            if (this.list.size() / 18 > this.page && this.isPointWithinBounds(30, 65, 18, 10, (double) mouseX, (double) mouseY)) {
                 this.page++;
-            if (this.page > 0 && this.isPointWithinBounds(-55, 65, 18, 10, (double) mouseX, (double) mouseY))
+                return true;
+            }
+            if (this.page > 0 && this.isPointWithinBounds(-55, 65, 18, 10, (double) mouseX, (double) mouseY)) {
                 this.page--;
+                return true;
+            }
         }
+
         int u = this.page * 6 * 3;
+        int count = 0;
         for (; u < this.list.size(); u += 3) {
-            if (this.isPointWithinBounds(-62, -60 + (u / 3) * 20, 110, 18, (double) mouseX, (double) mouseY))
-                PatchouliAPI.get().openBookGUI((Identifier) this.list.get(u));
-            if (u != 0 && u % 15 == 0)
+            if (this.isPointWithinBounds(-62, -60 + ((u / 3) - this.page * 6) * 20, 110, 18, (double) mouseX, (double) mouseY)) {
+                if (PatchouliButtonMain.isBYGLoaded && ((Identifier) this.list.get(u)).equals(new Identifier("byg", "biomepedia")))
+                    this.client.setScreen(new BiomepediaHomeScreen(Text.literal("")));
+                else
+                    PatchouliAPI.get().openBookGUI((Identifier) this.list.get(u));
+                return true;
+            }
+
+            count++;
+            if (count >= 6 || count >= (this.list.size() - this.page * 6 * 3) / 3)
                 break;
         }
 

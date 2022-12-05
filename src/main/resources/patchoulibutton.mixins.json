@@ -3,11 +3,13 @@
   "minVersion": "0.8",
   "package": "net.patchoulibutton.mixin",
   "compatibilityLevel": "JAVA_17",
+  "plugin": "net.patchoulibutton.mixin.PatchouliButtonMixinPlugin",
   "mixins": [
-    "access.BookRegistryAccessor"
+    "access.BookRegistryAccessor",
+    "compat.BiomepediaInventoryConfigMixin"
   ],
   "client": [
-    "InventoryScreenMixin"
+    "client.InventoryScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1

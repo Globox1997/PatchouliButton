@@ -14,6 +14,7 @@ repositories {
 	maven { url "https://maven.shedaniel.me/" }
 	maven { url "https://maven.terraformersmc.com/" }
 	maven { url 'https://maven.blamejared.com' }
+	maven { url "https://cursemaven.com" }
 }
 
 dependencies {
@@ -37,6 +38,8 @@ dependencies {
 	modImplementation "vazkii.patchouli:Patchouli:${project.patchouli_version}",{
 		exclude(group: "net.fabricmc.fabric-api")
 	}
+	// OTBYWG
+	modCompileOnly "curse.maven:oh-the-biomes-youll-go-fabric-391378:4027262"
 }
 
 processResources {
