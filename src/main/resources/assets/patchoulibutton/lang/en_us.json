@@ -3,6 +3,7 @@
     "text.autoconfig.patchoulibutton.option.bookIdentifier": "Book Identifier",
     "text.autoconfig.patchoulibutton.option.posX": "Button Pos X",
     "text.autoconfig.patchoulibutton.option.posY": "Button Pos Y",
+    "text.autoconfig.patchoulibutton.option.openAllBooksScreen": "Open All Books Screen",
     
     "screen.patchoulibutton": "Modpack Books",
     "screen.patchoulibutton.title": "Modpack Books",
