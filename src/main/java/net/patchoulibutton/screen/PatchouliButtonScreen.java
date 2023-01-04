@@ -16,7 +16,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.patchoulibutton.PatchouliButtonMain;
-import potionstudios.byg.client.gui.biomepedia.screen.BiomepediaHomeScreen;
+import net.patchoulibutton.util.ScreenCompat;
 import vazkii.patchouli.api.PatchouliAPI;
 
 @Environment(EnvType.CLIENT)
@@ -103,10 +103,11 @@ public class PatchouliButtonScreen extends Screen {
         int count = 0;
         for (; u < this.list.size(); u += 3) {
             if (this.isPointWithinBounds(-62, -60 + ((u / 3) - this.page * 6) * 20, 110, 18, (double) mouseX, (double) mouseY)) {
-                if (PatchouliButtonMain.isBYGLoaded && ((Identifier) this.list.get(u)).equals(new Identifier("byg", "biomepedia")))
-                    this.client.setScreen(new BiomepediaHomeScreen(Text.literal("")));
-                else
+                if (PatchouliButtonMain.isBYGLoaded && ((Identifier) this.list.get(u)).equals(new Identifier("byg", "biomepedia"))) {
+                    ScreenCompat.setBiomepediaScreen(this.client);
+                } else {
                     PatchouliAPI.get().openBookGUI((Identifier) this.list.get(u));
+                }
                 return true;
             }
 
