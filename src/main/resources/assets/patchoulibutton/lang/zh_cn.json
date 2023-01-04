@@ -1,0 +1,11 @@
+{
+    "text.autoconfig.patchoulibutton.title": "帕秋莉手册按钮配置文件",
+    "text.autoconfig.patchoulibutton.option.bookIdentifier": "书籍标识符",
+    "text.autoconfig.patchoulibutton.option.posX": "按钮位置X",
+    "text.autoconfig.patchoulibutton.option.posY": "按钮位置Y",
+    "text.autoconfig.patchoulibutton.option.openAllBooksScreen": "打开所有书籍屏幕",
+    
+    "screen.patchoulibutton": "整合包书籍",
+    "screen.patchoulibutton.title": "整合包书籍",
+    "screen.patchoulibutton.book_name": "%s"
+}
