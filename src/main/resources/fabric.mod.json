@@ -30,14 +30,20 @@
     "patchoulibutton.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.14.9",
-    "fabric-api": "*",
-    "minecraft": "1.19.x",
     "java": ">=17",
-    "patchouli": "*",
-    "cloth-config2": ">=7.0.69"
+    "minecraft": ">=${minecraft_version}",
+    "fabric-api": ">=${fabric_version}",
+    "fabricloader": ">=${loader_version}",
+    "cloth-config2": ">=${cloth_config_version}",
+    "patchouli": "*"
   },
   "suggests": {
     "another-mod": "*"
+  },
+  "custom": {
+    "mc-publish": {
+      "modrinth": "bTOwvKv9",
+      "curseforge": 703778
+    }
   }
 }

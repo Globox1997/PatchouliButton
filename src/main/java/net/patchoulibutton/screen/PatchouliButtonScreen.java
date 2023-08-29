@@ -7,14 +7,13 @@ import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.InventoryScreen;
-import net.minecraft.client.render.GameRenderer;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.Registries;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import net.patchoulibutton.PatchouliButtonMain;
 import net.patchoulibutton.util.ScreenCompat;
 import vazkii.patchouli.api.PatchouliAPI;
@@ -32,13 +31,9 @@ public class PatchouliButtonScreen extends Screen {
     }
 
     @Override
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
-        RenderSystem.setShaderTexture(0, PatchouliButtonMain.PATCHOULI_BUTTON);
-
-        this.drawTexture(matrices, this.width / 2 - 73, this.height / 2 - 90, 0, 0, 146, 180);
-        this.textRenderer.draw(matrices, this.title, this.width / 2 - this.textRenderer.getWidth(this.title) / 2, this.height / 2 - 75, 0x000000);
+    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+        context.drawTexture(PatchouliButtonMain.PATCHOULI_BUTTON, this.width / 2 - 73, this.height / 2 - 90, 0, 0, 146, 180);
+        context.drawText(this.textRenderer, this.title, this.width / 2 - this.textRenderer.getWidth(this.title) / 2, this.height / 2 - 75, 0x000000, false);
 
         int u = this.page * 6 * 3;
         int count = 0;
@@ -46,20 +41,21 @@ public class PatchouliButtonScreen extends Screen {
             if (this.isPointWithinBounds(-62, -60 + ((u / 3) - this.page * 6) * 20, 110, 18, (double) mouseX, (double) mouseY)) {
                 RenderSystem.setShaderTexture(0, PatchouliButtonMain.PATCHOULI_BUTTON);
                 RenderSystem.enableBlend();
-                this.drawTexture(matrices, this.width / 2 - 62, this.height / 2 - 61 + ((u / 3) - this.page * 6) * 20, 0, 200, 120, 18);
+                context.drawTexture(PatchouliButtonMain.PATCHOULI_BUTTON, this.width / 2 - 62, this.height / 2 - 61 + ((u / 3) - this.page * 6) * 20, 0, 200, 120, 18);
                 RenderSystem.disableBlend();
             }
 
-            this.itemRenderer.renderInGui(new ItemStack(Registry.ITEM.get((Identifier) this.list.get(u + 1))), this.width / 2 - 60, this.height / 2 - 60 + ((u / 3) - this.page * 6) * 20);
+            context.drawItem(new ItemStack(Registries.ITEM.get((Identifier) this.list.get(u + 1))), this.width / 2 - 60, this.height / 2 - 60 + ((u / 3) - this.page * 6) * 20);
 
             String text = Text.translatable((String) this.list.get(u + 2)).getString();
             boolean isTooLong = this.textRenderer.getWidth(text) > 90;
             if (isTooLong)
                 text = text.substring(0, 14) + "..";
 
-            this.textRenderer.draw(matrices, text, this.width / 2 - 36, this.height / 2 - 60 + ((u / 3) - this.page * 6) * 20 + 4, 0x000000);
-            if (isTooLong && this.isPointWithinBounds(-62, -60 + ((u / 3) - this.page * 6) * 20, 110, 18, (double) mouseX, (double) mouseY))
-                this.renderTooltip(matrices, Text.translatable((String) this.list.get(u + 2)), mouseX, mouseY);
+            context.drawText(this.textRenderer, text, this.width / 2 - 36, this.height / 2 - 60 + ((u / 3) - this.page * 6) * 20 + 4, 0x000000, false);
+            if (isTooLong && this.isPointWithinBounds(-62, -60 + ((u / 3) - this.page * 6) * 20, 110, 18, (double) mouseX, (double) mouseY)) {
+                context.drawTooltip(this.textRenderer, Text.translatable((String) this.list.get(u + 2)), mouseX, mouseY);
+            }
 
             count++;
             if (count >= 6 || count >= (this.list.size() - this.page * 6 * 3) / 3)
@@ -70,20 +66,22 @@ public class PatchouliButtonScreen extends Screen {
             RenderSystem.setShaderTexture(0, PatchouliButtonMain.PATCHOULI_BUTTON);
             if (this.list.size() / 18 > this.page) {
                 // right
-                if (this.isPointWithinBounds(30, 65, 18, 10, (double) mouseX, (double) mouseY))
-                    this.drawTexture(matrices, this.width / 2 + 30, this.height / 2 + 65, 18, 180, 18, 10);
-                else
-                    this.drawTexture(matrices, this.width / 2 + 30, this.height / 2 + 65, 0, 180, 18, 10);
+                if (this.isPointWithinBounds(30, 65, 18, 10, (double) mouseX, (double) mouseY)) {
+                    context.drawTexture(PatchouliButtonMain.PATCHOULI_BUTTON, this.width / 2 + 30, this.height / 2 + 65, 18, 180, 18, 10);
+                } else {
+                    context.drawTexture(PatchouliButtonMain.PATCHOULI_BUTTON, this.width / 2 + 30, this.height / 2 + 65, 0, 180, 18, 10);
+                }
             }
             if (this.page > 0) {
                 // left
-                if (this.isPointWithinBounds(-55, 65, 18, 10, (double) mouseX, (double) mouseY))
-                    this.drawTexture(matrices, this.width / 2 - 55, this.height / 2 + 65, 18, 190, 18, 10);
-                else
-                    this.drawTexture(matrices, this.width / 2 - 55, this.height / 2 + 65, 0, 190, 18, 10);
+                if (this.isPointWithinBounds(-55, 65, 18, 10, (double) mouseX, (double) mouseY)) {
+                    context.drawTexture(PatchouliButtonMain.PATCHOULI_BUTTON, this.width / 2 - 55, this.height / 2 + 65, 18, 190, 18, 10);
+                } else {
+                    context.drawTexture(PatchouliButtonMain.PATCHOULI_BUTTON, this.width / 2 - 55, this.height / 2 + 65, 0, 190, 18, 10);
+                }
             }
         }
-        super.render(matrices, mouseX, mouseY, delta);
+        super.render(context, mouseX, mouseY, delta);
     }
 
     @Override

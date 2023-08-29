@@ -8,9 +8,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.s2c.play.CustomPayloadS2CPacket;
+import net.minecraft.registry.Registries;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import net.patchoulibutton.PatchouliButtonMain;
 import net.patchoulibutton.mixin.access.BookRegistryAccessor;
 import vazkii.patchouli.common.book.Book;
@@ -35,18 +35,18 @@ public class PatchouliButtonServerPacket {
         while (iterator.hasNext()) {
             Book book = iterator.next();
             buf.writeIdentifier(book.id);
-            Item item = Registry.ITEM.get(book.model);
+            Item item = Registries.ITEM.get(book.model);
             if (item == null || item.equals(Items.AIR))
                 item = Items.BOOK;
 
-            buf.writeIdentifier(Registry.ITEM.getId(item));
+            buf.writeIdentifier(Registries.ITEM.getId(item));
             buf.writeString(book.name);
         }
         if (PatchouliButtonMain.isBYGLoaded) {
             Identifier identifier = new Identifier("byg", "biomepedia");
             buf.writeIdentifier(identifier);
             buf.writeIdentifier(identifier);
-            buf.writeString(Registry.ITEM.get(identifier).getName().getString());
+            buf.writeString(Registries.ITEM.get(identifier).getName().getString());
         }
         CustomPayloadS2CPacket packet = new CustomPayloadS2CPacket(OPEN_MODPACK_SCREEN_PACKET, buf);
         serverPlayerEntity.networkHandler.sendPacket(packet);
