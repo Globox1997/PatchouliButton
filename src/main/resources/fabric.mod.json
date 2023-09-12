@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "patchoulibutton",
   "version": "${version}",
-  "name": "PachouliButton",
+  "name": "PatchouliButton",
   "description": "This is an addon for the mod Patchouli which adds a button in the inventory screen",
   "authors": [
     "Globox_Z"
